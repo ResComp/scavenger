@@ -1,0 +1,76 @@
+#!/bin/bash
+
+source "/scavenger/lib/libbash"
+
+setup() {
+    Announce 0 "Doing setup!"
+    mkdir -p "$taskDir"
+}
+
+read -r -d '' runIntro << "EOF"
+Please make a file inside %s and tell me what it's called!
+
+To submit your response:
+$ submit <file_name>
+EOF
+
+run() {
+    Announce 0 "Running task!"
+    printf "${runIntro}\n\n" "$taskDir"
+
+    # Run submission checker in the background
+    checker &
+    checkerPID=$!
+    # pidFile tracks the pid of this process it can be cleaned up
+    sudo su -c "echo $checkerPID > "$pidFile""
+
+    # Run a shell for the user to play with
+    $SHELL
+}
+
+read -r -d '' checkReminder << "EOF"
+Remember, you want to create a file in %s and submit the file name
+EOF
+
+# This is a loop that reads from the submission pipe
+checker() {
+    while true; do
+        if read submission < $SubmitPipe; then
+            respFile=$taskDir/$submission
+            if [ -f "$respFile" ]; then
+                Announce 1 "Good job!"
+                echo "$ExitMsg"
+                break
+            fi
+            Announce 2 "Error: file $respFile does not exist or is not a file"
+            printf "$checkReminder\n" "$taskDir"
+        fi
+    done
+}
+
+# Remember, cleanup() can be run upon failure at any point in the script
+cleanup() {
+    Announce 0 "Doing cleanup!"
+    sudo rm -rf "$taskDir"
+    CleanupProcess "$pidFile"
+}
+
+### Begin Main Script ###
+
+set -e
+trap cleanup SIGHUP SIGINT SIGTERM
+
+comm=$1
+
+taskDir="/tmp/sampleTask"
+pidFile="/var/run/SampleTask.pid"
+
+if [ "$comm" = "setup" ]; then
+    setup
+fi
+if [ "$comm" = "run" ]; then
+    run
+fi
+if [ "$comm" = "cleanup" ]; then
+    cleanup
+fi

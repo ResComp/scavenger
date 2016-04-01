@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source "/scavenger/lib/libbash"
+
+printf '%s\n' "$1" > $SubmitPipe
