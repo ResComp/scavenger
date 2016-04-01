@@ -1,5 +1,6 @@
 # ResComp Scavenger Hunt
 
-`vagrant up`
-`vagrant ssh`
-`$ bash /vagrant/scavenger.sh`
+* Clone this repo
+* `vagrant up`
+* `vagrant ssh`
+* `$ bash /vagrant/scavenger.sh`
