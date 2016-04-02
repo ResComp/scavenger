@@ -26,12 +26,14 @@ vagrant ssh
 cd ~/scavenger
 ./scavenger
 
- # Happy Hunting!
+# Happy Hunting!
 ```
 
 # Contributing to the Hunt
 
 ### How to write a Task
+
+You can write a Task in any language.
 
 A Task is an executable file in `tasks/` that accepts 3 commands:
 `setup`, `run`, and `cleanup`.
@@ -46,13 +48,13 @@ sampleTask cleanup
 ./scavenger -t sampleTask
 ```
 
-You can take a look at [sampleTask](tasks/sampleTask) for an example on how
+Take a look at [sampleTask](tasks/sampleTask) for an example on how
 to write a task.
 
 ### Developer Tips
 
-* You can run your task with `./scavenger -t TASK`
-* Since vagrant mounts your working directory at `/vagrant`, you can create
-a link to it in your home directory named `scavenger` (`ln -s /vagrant
+* Run any task with `./scavenger -t TASK`
+* Since vagrant mounts the host working directory at `/vagrant`, you can create
+a link to it in the vagrant home directory named `scavenger` (`ln -s /vagrant
 $HOME/scavenger`) and work locally (on the host machine) and only drop into
-vagrant to test your changes.
+vagrant to test changes.
