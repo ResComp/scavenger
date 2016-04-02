@@ -1,0 +1,45 @@
+#!/bin/bash
+
+ExitMsg='You may now exit out of this shell with the keys "ctrl+d" or the "exit" command'
+
+# This takes as input the absolute path to a pid file.
+#
+# Here a pid file is one that contains only the pid of the process
+CleanupProcess() {
+    pidFile=$1
+
+    # Open the pid file only if it exists
+    if [ -f "$pidFile" ]; then
+        pid=$(cat $pidFile)
+        # Kill the process only if it's still running
+        if [ -e "/proc/$pid" ]; then
+            kill "$pid"
+        fi
+        if [ -e "/proc/$pid" ]; then
+            kill -9 "$pid"
+        fi
+        # You still need root to remove the file
+        sudo rm -f $pidFile
+    fi
+}
+
+CreatePIDFile() {
+    pidFile=$1
+    pid=$2
+
+    sudo install -m 600 -o $USER -g 0 -T /dev/null "$pidFile"
+    echo $checkerPID > "$pidFile"
+}
+
+# This calls the functions setup(), run(), and cleanup() as appropriate
+RunTask() {
+    arg=$1
+
+    if [ "$arg" = "setup" ]; then
+        setup
+    elif [ "$arg" = "run" ]; then
+        run
+    elif [ "$arg" = "cleanup" ]; then
+        cleanup
+    fi
+}
