@@ -5,7 +5,8 @@ How to begin the hunt:
 * Clone this repo
 * `vagrant up`
 * `vagrant ssh`
-* `$ /vagrant/scavenger`
+* `$ cd ~/scavenger`
+* `$ ./scavenger`
 
 # How to write a task
 
@@ -22,3 +23,10 @@ $ sampleTask setup
 $ sampleTask run 
 $ sampleTask cleanup
 ```
+
+# Developer Tips
+
+* Since vagrant mounts your working directory at `/vagrant`, you can create
+a link to it in your home directory named `scavenger` (`ln -s /vagrant
+scavenger`) and work locally (on the host machine) and only need drop into
+vagrant to test your changes.

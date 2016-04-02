@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "/scavenger/lib/libbash"
+source "$HOME/scavenger/lib/libbash"
 
 setup() {
     Announce 0 "Doing setup!"
