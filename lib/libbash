@@ -2,9 +2,6 @@
 
 PipeDir="/var/run/scavenger"
 SubmitPipe="$PipeDir/submit"
-ResultPipe="$PipeDir/result"
-MessagePipe="$PipeDir/msg"
-
 ExitMsg='You can now exit out of this shell with the keys ctrl+d or the `exit` command'
 
 Text() {

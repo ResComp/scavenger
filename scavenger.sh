@@ -76,7 +76,7 @@ doSetup() {
     sudo ln -sf "$sourceDir/submit" "$binDir/submit"
     sudo rm -rf "$PipeDir"
     sudo mkdir -p -m 777 "$PipeDir"
-    sudo mkfifo -m 666 $SubmitPipe $ResultPipe $MessagePipe
+    sudo mkfifo -m 666 $SubmitPipe
 
     echo "Done!"
 }
