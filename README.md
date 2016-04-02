@@ -1,9 +1,11 @@
 # ResComp Scavenger Hunt
 
+How to begin the hunt:
+
 * Clone this repo
 * `vagrant up`
 * `vagrant ssh`
-* `$ bash /vagrant/scavenger.sh`
+* `$ /vagrant/scavenger'
 
 # How to write a task
 

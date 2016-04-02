@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo ln -sf "/vagrant" "/scavenger"
+[ ! -e "/scavenger" ] && sudo ln -s "/vagrant" "/scavenger"
 source "/scavenger/lib/libbash"
 
 # So what do we want to teach them about?
@@ -74,9 +74,11 @@ doSetup() {
     echo -n "Initializing..."
 
     sudo ln -sf "$sourceDir/submit" "$binDir/submit"
+    # Still need root to remove the directory
     sudo rm -rf "$PipeDir"
-    sudo mkdir -p -m 777 "$PipeDir"
-    sudo mkfifo -m 666 $SubmitPipe
+    sudo mkdir -p -m 700 "$PipeDir"
+    sudo chown $USER:0 "$PipeDir"
+    mkfifo -m 600 $SubmitPipe
 
     echo "Done!"
 }
