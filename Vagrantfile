@@ -72,6 +72,6 @@ Vagrant.configure(2) do |config|
 
   # Configure the rest as the user
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
-    git clone https://github.com/nlsun/scavenger
+    git clone https://github.com/ResComp/scavenger
   SHELL
 end

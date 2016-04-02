@@ -11,7 +11,7 @@ Before you begin:
 cd ~
 
 # Clone this repository
-git clone https://github.com/nlsun/scavenger
+git clone https://github.com/ResComp/scavenger
 
 # Navigate to the repository you just cloned
 cd ~/scavenger
