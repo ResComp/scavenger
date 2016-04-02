@@ -1,7 +1,6 @@
 #!/bin/bash
 
-[ ! -e "/scavenger" ] && sudo ln -s "/vagrant" "/scavenger"
-source "/scavenger/lib/libbash"
+source "$HOME/scavenger/lib/libbash"
 
 # So what do we want to teach them about?
 # - XXX READING THE LOGS
@@ -90,7 +89,7 @@ set -e
 curChapter=0
 
 binDir="/usr/local/bin"
-sourceDir="/scavenger"
+sourceDir="$HOME/scavenger"
 taskDir="$sourceDir/tasks"
 
 Announce 0 "Welcome to the ResComp Scavenger Hunt!"
