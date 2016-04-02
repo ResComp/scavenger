@@ -76,6 +76,7 @@ doSetup() {
 
     export PATH="$SourceDir/bin:$PATH"
     mkdir -p -m 700 "$DataDir" "$RunDir"
+    # Flush the pipe
     rm -f "$SubmitPipe"
     mkfifo -m 600 "$SubmitPipe"
 
@@ -97,6 +98,18 @@ EOF
     exit 1
 }
 
+preventMultipleHunts() {
+    pidFileName="scavenger.pid"
+    if ProcessIsRunning "$pidFileName"; then
+        oldPID=$(PIDFromFile "$pidFileName")
+        Announce 2 "The Hunt has already begun. It has pid $oldPID"
+        exit 1
+    fi
+    rm -f "$(PIDFilePath "$pidFileName")"
+    currentPID=$$
+    CreatePIDFile "scavenger.pid" "$currentPID"
+}
+
 ### Begin Main Script ###
 
 set -e
@@ -116,6 +129,7 @@ while getopts 't:h' opt ; do
 done
 shift $((OPTIND - 1))
 
+preventMultipleHunts
 Announce 0 "Welcome to the ResComp Scavenger Hunt!"
 doSetup
 

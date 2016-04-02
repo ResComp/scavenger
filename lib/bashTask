@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$HOME/scavenger/lib/libbash"
+
 ExitMsg='You may now exit out of this shell with the keys "ctrl+d" or the "exit" command'
 
 # This takes as input the name of the pid file. Not the path.
@@ -23,17 +25,6 @@ CleanupProcess() {
         # You still need root to remove the file
         rm -f $pidFile
     fi
-}
-
-# This takes as input the name of the pid file. Not the path. With the pid
-# as the second argument
-CreatePIDFile() {
-    pidFileName=$1
-    pid=$2
-
-    pidFile="$RunDir/$pidFileName"
-    install -m 600 -T /dev/null "$pidFile"
-    echo $checkerPID > "$pidFile"
 }
 
 # This calls the functions setup(), run(), and cleanup() as appropriate

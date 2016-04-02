@@ -1,7 +1,6 @@
 #!/bin/bash
 
 DataDir="$HOME/.scavenger"
-
 SubmitPipe="$DataDir/submit"
 RunDir="$DataDir/run"
 
@@ -24,4 +23,48 @@ Text() {
 
 Announce() {
     Text "$1" "\n${2}\n\n"
+}
+
+# This takes as input the name of the pid file. Not the path.
+# The second argument is the pid of the process.
+CreatePIDFile() {
+    pidFileName=$1
+    pid=$2
+
+    pidFile="$RunDir/$pidFileName"
+    install -m 600 -T /dev/null "$pidFile"
+    echo $pid > "$pidFile"
+}
+
+# This takes as input the name of the pid file. Not the path.
+#
+# Exit code of 0 if the process is running, non-zero otherwise.
+ProcessIsRunning() {
+    pidFileName=$1
+
+    pidFile="$RunDir/$pidFileName"
+    # Open the pid file only if it exists
+    if [ -f "$pidFile" ]; then
+        pid=$(cat "$pidFile")
+        if [ -n "$pid" ]; then
+            if [ -e "/proc/$pid" ]; then
+                return 0
+            fi
+        fi
+    fi
+    return 1
+}
+
+# Retrieve the PID from a pid file
+PIDFromFile() {
+    pidFileName=$1
+
+    cat "$RunDir/$pidFileName"
+}
+
+# Retrieve the path of the pid file from the name
+PIDFilePath() {
+    pidFileName=$1
+
+    echo "$RunDir/$pidFileName"
 }
