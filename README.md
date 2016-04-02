@@ -5,7 +5,7 @@ How to begin the hunt:
 * Clone this repo
 * `vagrant up`
 * `vagrant ssh`
-* `$ /vagrant/scavenger'
+* `$ /vagrant/scavenger`
 
 # How to write a task
 
