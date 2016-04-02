@@ -1,0 +1,20 @@
+#!/bin/bash
+
+rootProvision() {
+    yum install -y git
+}
+
+userProvision() {
+    git clone https://github.com/ResComp/scavenger
+    cat <<"EOF" >> ~/.bashrc
+PS1="\${HuntingPrompt}[\u \w]\\$ "
+EOF
+}
+
+arg=$1
+
+if [ "$arg" = "root" ]; then
+    rootProvision
+elif [ "$arg" = "user" ]; then
+    userProvision
+fi

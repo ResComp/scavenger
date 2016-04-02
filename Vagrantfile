@@ -64,14 +64,6 @@ Vagrant.configure(2) do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-
-  # Install necessary tools with root
-  config.vm.provision "shell", inline: <<-SHELL
-    yum install -y git
-  SHELL
-
-  # Configure the rest as the user
-  config.vm.provision "shell", privileged: false, inline: <<-SHELL
-    git clone https://github.com/ResComp/scavenger
-  SHELL
+  config.vm.provision "shell", path: "provision", args: "root"
+  config.vm.provision "shell", privileged: false, path: "provision", args: "user"
 end

@@ -36,13 +36,15 @@ runTasks() {
     tasks=$@
 
     for task in $tasks; do
-        if ! runSingleTask "$task"; then
+        export HuntingPrompt="{$task}"
+        if ! _runSingleTask "$task"; then
             Announce 2 "ERROR: task $task aborted"
         fi
+        unset HuntingPrompt
     done
 }
 
-runSingleTask() {
+_runSingleTask() {
     taskName=$1
 
     taskFile="$taskDir/$taskName"
@@ -119,7 +121,7 @@ doSetup
 
 if [ "$opt_task" = true ]; then
     Announce 0 "Running $taskDir/$singleTask"
-    runSingleTask "$singleTask"
+    runTasks "$singleTask"
     exit 0
 fi
 
