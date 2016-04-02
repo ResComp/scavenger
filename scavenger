@@ -82,15 +82,46 @@ doSetup() {
     echo "Done!"
 }
 
+_usage() {
+    cat <<EOF
+
+${prog} [options]
+
+The ResComp Scavenger Hunt
+
+Options:
+    -t TASK         Run a single task and exit
+    -h              Prints this help message
+
+EOF
+    exit 1
+}
+
 ### Begin Main Script ###
 
 set -e
 
+readonly prog="${0##*/}"
 curChapter=0
-
 binDir="/usr/local/bin"
 sourceDir="$HOME/scavenger"
 taskDir="$sourceDir/tasks"
+
+unset -v opt_task
+while getopts 't:h' opt ; do
+    case "$opt" in
+    t) opt_task=true; singleTask=$OPTARG ;;
+    h) _usage ;;
+    ?) _usage ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [ "$opt_task" = true ]; then
+    Announce 0 "Running $taskDir/$singleTask"
+    runSingleTask "$singleTask"
+    exit 0
+fi
 
 Announce 0 "Welcome to the ResComp Scavenger Hunt!"
 doSetup

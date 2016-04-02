@@ -1,31 +1,57 @@
 # ResComp Scavenger Hunt
 
-How to begin the hunt:
+### Preparation
 
-* Clone this repo
-* `vagrant up`
-* `vagrant ssh`
-* `$ cd ~/scavenger`
-* `$ ./scavenger`
+Before you begin:
+* Make sure you have [vagrant](https://www.vagrantup.com/) installed.
 
-# How to write a task
+### Beginning the Hunt
+```
+# We'll install it to your home directory
+cd ~
 
-Create an executable file in `tasks/` that accepts 3 commands:
-`setup`, `run`, `cleanup`.
+# Clone this repository
+git clone https://github.com/nlsun/scavenger
+
+# Navigate to the repository you just cloned
+cd ~/scavenger
+
+# Start vagrant, this will take a while as the first run will download alot
+vagrant up
+
+# Enter vagrant
+vagrant ssh
+
+# Now that we're inside vagrant all we gotta do is run it!
+cd ~/scavenger
+./scavenger
+
+ # Happy Hunting!
+```
+
+# Contributing to the Hunt
+
+### How to write a Task
+
+A Task is an executable file in `tasks/` that accepts 3 commands:
+`setup`, `run`, and `cleanup`.
+
+```
+# For sampleTask to be a valid task, these 3 commands have to run successfully:
+sampleTask setup
+sampleTask run 
+sampleTask cleanup
+
+# Run sampleTask
+./scavenger -t sampleTask
+```
 
 You can take a look at [sampleTask](tasks/sampleTask) for an example on how
 to write a task.
 
-```
-# For sampleTask to be a valid task, these 3 commands have to run successfully:
+### Developer Tips
 
-$ sampleTask setup
-$ sampleTask run 
-$ sampleTask cleanup
-```
-
-# Developer Tips
-
+* You can run your task with `./scavenger -t TASK`
 * Since vagrant mounts your working directory at `/vagrant`, you can create
 a link to it in your home directory named `scavenger` (`ln -s /vagrant
 $HOME/scavenger`) and work locally (on the host machine) and only drop into
