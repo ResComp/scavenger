@@ -10,12 +10,13 @@
 Create an executable file in `tasks/` that accepts 3 commands:
 `setup`, `run`, `cleanup`.
 
+You can take a look at [sampleTask](tasks/sampleTask) for an example on how
+to write a task.
+
 ```
-# For a task "sampleTask"
+# For sampleTask to be a valid task, these 3 commands have to run successfully:
 
 $ sampleTask setup
 $ sampleTask run 
 $ sampleTask cleanup
-
-# Must all be valid commands
 ```
