@@ -1,6 +1,5 @@
 #!/bin/bash
 
-SourceDir="$HOME/scavenger"
 DataDir="$HOME/.scavenger"
 
 SubmitPipe="$DataDir/submit"

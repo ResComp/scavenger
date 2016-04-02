@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$HOME/scavenger/lib/libbash"
-
 ExitMsg='You may now exit out of this shell with the keys "ctrl+d" or the "exit" command'
 
 # This takes as input the name of the pid file. Not the path.
@@ -49,8 +47,4 @@ RunTask() {
     elif [ "$arg" = "cleanup" ]; then
         cleanup
     fi
-}
-
-SetupEnv() {
-    export PATH="$SourceDir/bin:$PATH"
 }

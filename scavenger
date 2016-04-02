@@ -72,6 +72,7 @@ runSingleTask() {
 doSetup() {
     echo -n "Initializing..."
 
+    export PATH="$SourceDir/bin:$PATH"
     mkdir -p -m 700 "$DataDir" "$RunDir"
     rm -f "$SubmitPipe"
     mkfifo -m 600 "$SubmitPipe"
@@ -100,6 +101,7 @@ set -e
 
 readonly prog="${0##*/}"
 curChapter=0
+SourceDir="$HOME/scavenger"
 taskDir="$SourceDir/tasks"
 
 unset -v opt_task

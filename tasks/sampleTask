@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source "$HOME/scavenger/lib/libbash"
 source "$HOME/scavenger/lib/bashTask"
 
 setup() {
@@ -24,8 +25,6 @@ run() {
     # Create a pid file to track the process so it can be cleaned up
     CreatePIDFile "$pidFile" "$checkerPID"
 
-    # Set up the environment for the new shell
-    SetupEnv
     # Run a shell for the user to play with
     $SHELL
 }
