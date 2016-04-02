@@ -28,5 +28,5 @@ $ sampleTask cleanup
 
 * Since vagrant mounts your working directory at `/vagrant`, you can create
 a link to it in your home directory named `scavenger` (`ln -s /vagrant
-scavenger`) and work locally (on the host machine) and only need drop into
+$HOME/scavenger`) and work locally (on the host machine) and only drop into
 vagrant to test your changes.
