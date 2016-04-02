@@ -72,12 +72,9 @@ runSingleTask() {
 doSetup() {
     echo -n "Initializing..."
 
-    sudo ln -sf "$sourceDir/submit" "$binDir/submit"
-    # Still need root to remove the directory
-    sudo rm -rf "$PipeDir"
-    sudo mkdir -p -m 700 "$PipeDir"
-    sudo chown $USER:0 "$PipeDir"
-    mkfifo -m 600 $SubmitPipe
+    mkdir -p -m 700 "$DataDir" "$RunDir"
+    rm -f "$SubmitPipe"
+    mkfifo -m 600 "$SubmitPipe"
 
     echo "Done!"
 }
@@ -103,9 +100,7 @@ set -e
 
 readonly prog="${0##*/}"
 curChapter=0
-binDir="/usr/local/bin"
-sourceDir="$HOME/scavenger"
-taskDir="$sourceDir/tasks"
+taskDir="$SourceDir/tasks"
 
 unset -v opt_task
 while getopts 't:h' opt ; do
@@ -117,14 +112,14 @@ while getopts 't:h' opt ; do
 done
 shift $((OPTIND - 1))
 
+Announce 0 "Welcome to the ResComp Scavenger Hunt!"
+doSetup
+
 if [ "$opt_task" = true ]; then
     Announce 0 "Running $taskDir/$singleTask"
     runSingleTask "$singleTask"
     exit 0
 fi
-
-Announce 0 "Welcome to the ResComp Scavenger Hunt!"
-doSetup
 
 if newChapter "Life in the Shell"; then
     runTasks "sampleTask"

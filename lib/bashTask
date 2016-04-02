@@ -1,13 +1,17 @@
 #!/bin/bash
 
+source "$HOME/scavenger/lib/libbash"
+
 ExitMsg='You may now exit out of this shell with the keys "ctrl+d" or the "exit" command'
 
-# This takes as input the absolute path to a pid file.
+# This takes as input the name of the pid file. Not the path.
 #
+# pid files are assumed to be in RunDir
 # Here a pid file is one that contains only the pid of the process
 CleanupProcess() {
-    pidFile=$1
+    pidFileName=$1
 
+    pidFile="$RunDir/$pidFileName"
     # Open the pid file only if it exists
     if [ -f "$pidFile" ]; then
         pid=$(cat $pidFile)
@@ -19,15 +23,18 @@ CleanupProcess() {
             kill -9 "$pid"
         fi
         # You still need root to remove the file
-        sudo rm -f $pidFile
+        rm -f $pidFile
     fi
 }
 
+# This takes as input the name of the pid file. Not the path. With the pid
+# as the second argument
 CreatePIDFile() {
-    pidFile=$1
+    pidFileName=$1
     pid=$2
 
-    sudo install -m 600 -o $USER -g 0 -T /dev/null "$pidFile"
+    pidFile="$RunDir/$pidFileName"
+    install -m 600 -T /dev/null "$pidFile"
     echo $checkerPID > "$pidFile"
 }
 
@@ -42,4 +49,8 @@ RunTask() {
     elif [ "$arg" = "cleanup" ]; then
         cleanup
     fi
+}
+
+SetupEnv() {
+    export PATH="$SourceDir/bin:$PATH"
 }

@@ -1,11 +1,10 @@
 #!/bin/bash
 
-source "$HOME/scavenger/lib/libbash"
 source "$HOME/scavenger/lib/bashTask"
 
 setup() {
     Announce 0 "Doing setup!"
-    mkdir -p "$workDir"
+    mkdir -p "$SampleDir"
 }
 
 read -r -d '' runIntro << EOF
@@ -17,7 +16,7 @@ EOF
 
 run() {
     Announce 0 "Running task!"
-    printf "${runIntro}\n\n" "$workDir"
+    printf "${runIntro}\n\n" "$SampleDir"
 
     # Run submission checker in the background
     checker &
@@ -25,6 +24,8 @@ run() {
     # Create a pid file to track the process so it can be cleaned up
     CreatePIDFile "$pidFile" "$checkerPID"
 
+    # Set up the environment for the new shell
+    SetupEnv
     # Run a shell for the user to play with
     $SHELL
 }
@@ -37,14 +38,14 @@ EOF
 checker() {
     while true; do
         if read submission < $SubmitPipe; then
-            respFile=$workDir/$submission
+            respFile=$SampleDir/$submission
             if [ -f "$respFile" ]; then
                 Announce 1 "Good job!"
                 echo "$ExitMsg"
                 break
             fi
             Announce 2 "Error: file $respFile does not exist or is not a file"
-            printf "${checkReminder}\n" "$workDir"
+            printf "${checkReminder}\n" "$SampleDir"
         fi
     done
 }
@@ -52,7 +53,7 @@ checker() {
 # cleanup() is called whenever anything else fails, and once at the very end
 cleanup() {
     Announce 0 "Doing cleanup!"
-    rm -rf "$workDir"
+    rm -rf "$SampleDir"
     CleanupProcess "$pidFile"
 }
 
@@ -63,7 +64,7 @@ trap cleanup SIGHUP SIGINT SIGTERM
 
 arg=$1
 
-workDir="/tmp/sampleTask"
-pidFile="/var/run/sampleTask.pid"
+SampleDir="/tmp/sampleTask"
+pidFile="sampleTask.pid"
 
 RunTask "$arg"
