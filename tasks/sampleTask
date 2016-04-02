@@ -7,7 +7,7 @@ setup() {
     mkdir -p "$SampleDir"
 }
 
-read -r -d '' runIntro << EOF
+read -r -d '' runIntro <<"EOF"
 Make a file inside %s and tell me what it's called!
 
 To submit your response:
@@ -30,7 +30,7 @@ run() {
     $SHELL
 }
 
-read -r -d '' checkReminder << EOF
+read -r -d '' checkReminder <<"EOF"
 Remember, you want to create a file in %s and submit the file name
 EOF
 
