@@ -62,7 +62,7 @@ trap cleanup SIGHUP SIGINT SIGTERM
 
 arg=$1
 
-SampleDir="/tmp/sampleTask"
-pidFile="sampleTask.pid"
+SampleDir="/tmp/sampleBash"
+pidFile="sampleBash.pid"
 
 RunTask "$arg"

@@ -48,7 +48,7 @@ sampleTask cleanup
 ./scavenger -t sampleTask
 ```
 
-Take a look at [sampleTask](tasks/sampleTask) and
+Take a look at [sampleBash](tasks/sampleBash) and
 [samplePython](tasks/samplePython) for examples on how
 to write a task.
 
