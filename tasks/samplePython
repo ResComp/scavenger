@@ -36,12 +36,6 @@ $ submit <file_name>
         # Clean up the checker once the user is done
         checker_proc.terminate()
 
-    def checker(self):
-        while True:
-            with open(libpy.SUBMIT_PIPE) as fifo:
-                if self.check_submission(fifo.read().strip()):
-                    break
-
     def check_submission(self, submission):
         reminder = """\
 Remember, you want to create a file in {0}/ and submit the file name
