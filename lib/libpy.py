@@ -1,9 +1,6 @@
 import os
 
-HOME_DIR = os.path.expanduser('~')
-DATA_DIR = "{0}/.scavenger".format(HOME_DIR)
-SUBMIT_PIPE = "{0}/submit".format(DATA_DIR)
-RUN_DIR = "{0}/run".format(DATA_DIR)
+SUBMIT_PIPE = "{0}/submit".format(os.environ['DATADIR'])
 
 # Styles
 BOLD=0

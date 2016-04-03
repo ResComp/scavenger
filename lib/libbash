@@ -1,8 +1,7 @@
 #!/bin/bash
 
-DataDir="$HOME/.scavenger"
-SubmitPipe="$DataDir/submit"
-RunDir="$DataDir/run"
+SubmitPipe="$DATADIR/submit"
+RunDir="$DATADIR/run"
 
 Text() {
     setting="$1" # "0" = bold, "1" = blue, "2" = red

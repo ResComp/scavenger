@@ -1,6 +1,9 @@
 #!/bin/bash
 
-source "$HOME/scavenger/lib/libbash"
+# The Master source
+source "$HOME/scavenger/environment"
+
+source "$BASHLIB/libbash"
 
 # So what do we want to teach them about?
 # - XXX READING THE LOGS
@@ -72,9 +75,8 @@ _runSingleTask() {
 doSetup() {
     echo -n "Initializing..."
 
-    export PATH="$SourceDir/bin:$PATH"
-    export PYTHONPATH="$PYTHONPATH:$SourceDir/lib"
-    mkdir -p -m 700 "$DataDir" "$RunDir"
+    export PATH="$SOURCEDIR/bin:$PATH"
+    mkdir -p -m 700 "$DATADIR" "$RunDir"
     # Flush the pipe
     rm -f "$SubmitPipe"
     mkfifo -m 600 "$SubmitPipe"
@@ -115,8 +117,7 @@ set -e
 
 readonly prog="${0##*/}"
 curChapter=0
-SourceDir="$HOME/scavenger"
-taskDir="$SourceDir/tasks"
+taskDir="$SOURCEDIR/tasks"
 
 unset -v opt_task
 while getopts 't:h' opt ; do

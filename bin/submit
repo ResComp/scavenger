@@ -1,5 +1,8 @@
 #!/bin/bash
 
-source "$HOME/scavenger/lib/libbash"
+# The Master source
+source "$HOME/scavenger/environment"
+
+source "$BASHLIB/libbash"
 
 printf '%s\n' "$1" > "$SubmitPipe"

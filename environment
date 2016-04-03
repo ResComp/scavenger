@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export SOURCEDIR="$HOME/scavenger"
+export DATADIR="$HOME/.scavenger"
+
+export BASHLIB="$SOURCEDIR/lib"
+export PYTHONPATH="$PYTHONPATH:$SOURCEDIR/lib"
