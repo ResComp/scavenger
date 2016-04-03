@@ -25,7 +25,7 @@ $ submit <file_name>
 """
         libpy.announce("Running!")
         print(run_intro.format(self.sample_dir))
-        self.run_checker()
+        self.run_task()
 
     def check_submission(self, submission):
         reminder = """\

@@ -27,12 +27,15 @@ class Task:
 
     def run(self):
         """
-        This runs a submission checker in the background and a shell for the
-        user to work with in the foreground
+        This is for running the task that the user must complete.
         """
         exit(1)
 
-    def run_checker(self):
+    def run_task(self):
+        """
+        Runs the checker in the background and a shell for the user in
+        the foreground.
+        """
         # Run the checker in the background
         checker_proc = mp.Process(target=self.checker)
         checker_proc.start()
@@ -49,6 +52,9 @@ class Task:
                     break
 
     def check_submission(self, submission):
+        """
+        This function returns True on success and False otherwise.
+        """
         exit(1)
 
     def cleanup(self):
