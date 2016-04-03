@@ -22,7 +22,6 @@ CleanupProcess() {
         if [ -e "/proc/$pid" ]; then
             kill -9 "$pid"
         fi
-        # You still need root to remove the file
         rm -f $pidFile
     fi
 }

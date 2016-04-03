@@ -75,6 +75,7 @@ doSetup() {
     echo -n "Initializing..."
 
     export PATH="$SourceDir/bin:$PATH"
+    export PYTHONPATH="$PYTHONPATH:$SourceDir/lib"
     mkdir -p -m 700 "$DataDir" "$RunDir"
     # Flush the pipe
     rm -f "$SubmitPipe"
