@@ -37,8 +37,34 @@ CleanupProcess() {
     fi
 }
 
-# This calls the functions setup(), run(), and cleanup() as appropriate
+# Runs the checker in the background and a shell for the user in the
+# foreground.
 RunTask() {
+    # Run submission checker in the background
+    Checker &
+    checkerPID=$!
+    # Clean up the checker upon exit
+    trap 'CleanupProcess $checkerPID' EXIT
+
+    # Run a shell for the user to play with
+    # We want the exit code to be 0 no matter how the shell exits
+    $SHELL || true
+}
+
+# This is a loop that reads from the submission pipe and passes the input
+# to check_submission()
+Checker() {
+    while true; do
+        if read submission < $SubmitPipe; then
+            if check_submission $submission; then
+                break
+            fi
+        fi
+    done
+}
+
+# This calls the functions setup(), run(), and cleanup() as appropriate
+TaskMain() {
     arg=$1
 
     if [ "$arg" = "setup" ]; then
