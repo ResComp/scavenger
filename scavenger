@@ -36,11 +36,9 @@ runTasks() {
     tasks=$@
 
     for task in $tasks; do
-        export HuntingPrompt="{$task}"
-        if ! _runSingleTask "$task"; then
+        if ! HuntingPrompt="{$task}" _runSingleTask "$task"; then
             Announce 2 "ERROR: task $task aborted"
         fi
-        unset HuntingPrompt
     done
 }
 

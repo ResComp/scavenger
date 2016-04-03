@@ -21,48 +21,55 @@ run() {
     # Run submission checker in the background
     checker &
     checkerPID=$!
-    # Create a pid file to track the process so it can be cleaned up
-    CreatePIDFile "$pidFile" "$checkerPID"
+    # Clean up the checker upon exit
+    trap 'CleanupProcess $checkerPID' EXIT
 
     # Run a shell for the user to play with
-    $SHELL
+    # We want the exit code to be 0 no matter how the shell exits
+    $SHELL || true
 }
 
 read -r -d '' checkReminder <<"EOF"
-Remember, you want to create a file in %s and submit the file name
+Remember, you want to create a file in %s/ and submit the file name
 EOF
 
 # This is a loop that reads from the submission pipe
 checker() {
     while true; do
         if read submission < $SubmitPipe; then
-            respFile=$SampleDir/$submission
-            if [ -f "$respFile" ]; then
-                Announce 1 "Good job!"
-                echo "$ExitMsg"
+            if check_submission $submission; then
                 break
             fi
-            Announce 2 "Error: file $respFile does not exist or is not a file"
-            printf "${checkReminder}\n" "$SampleDir"
         fi
     done
+}
+
+check_submission() {
+    submission=$1
+
+    respFile=$SampleDir/$submission
+    if [ -f "$respFile" ]; then
+        Announce 1 "Good job!"
+        echo "$ExitMsg"
+        return 0
+    fi
+    Announce 2 "Error: file $respFile does not exist or is not a file"
+    printf "${checkReminder}\n" "$SampleDir"
+    return 1
 }
 
 # cleanup() is called whenever anything else fails, and once at the very end
 cleanup() {
     Announce 0 "Doing cleanup!"
     rm -rf "$SampleDir"
-    CleanupProcess "$pidFile"
 }
 
 ### Begin Main Script ###
 
 set -e
-trap cleanup SIGHUP SIGINT SIGTERM
 
 arg=$1
 
 SampleDir="/tmp/sampleBash"
-pidFile="sampleBash.pid"
 
 RunTask "$arg"

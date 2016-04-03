@@ -8,7 +8,7 @@ ExitMsg='You may now exit out of this shell with the keys "ctrl+d" or the "exit"
 #
 # pid files are assumed to be in RunDir
 # Here a pid file is one that contains only the pid of the process
-CleanupProcess() {
+CleanupPIDFile() {
     pidFileName=$1
 
     pidFile="$RunDir/$pidFileName"
@@ -23,6 +23,17 @@ CleanupProcess() {
             kill -9 "$pid"
         fi
         rm -f $pidFile
+    fi
+}
+
+CleanupProcess() {
+    pid=$1
+
+    if [ -e "/proc/$pid" ]; then
+        kill "$pid"
+    fi
+    if [ -e "/proc/$pid" ]; then
+        kill -9 "$pid"
     fi
 }
 
