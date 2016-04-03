@@ -2,9 +2,9 @@
 
 import sys
 import os
-import subprocess as sp
 import shutil
-from multiprocessing import Process
+import subprocess as sp
+import multiprocessing as mp
 
 # scavenger imports
 import libpy
@@ -28,7 +28,7 @@ $ submit <file_name>
         libpy.announce("Running!")
         print(run_intro.format(self.sample_dir))
         # Run the checker in the background
-        checker_proc = Process(target=self.checker)
+        checker_proc = mp.Process(target=self.checker)
         checker_proc.start()
         # Start a shell for the user to play with
         shell = sp.Popen(os.environ['SHELL'])
