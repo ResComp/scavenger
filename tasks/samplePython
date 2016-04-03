@@ -3,8 +3,6 @@
 import sys
 import os
 import shutil
-import subprocess as sp
-import multiprocessing as mp
 
 # scavenger imports
 import libpy
@@ -27,14 +25,7 @@ $ submit <file_name>
 """
         libpy.announce("Running!")
         print(run_intro.format(self.sample_dir))
-        # Run the checker in the background
-        checker_proc = mp.Process(target=self.checker)
-        checker_proc.start()
-        # Start a shell for the user to play with
-        shell = sp.Popen(os.environ['SHELL'])
-        shell.wait()
-        # Clean up the checker once the user is done
-        checker_proc.terminate()
+        self.run_checker()
 
     def check_submission(self, submission):
         reminder = """\

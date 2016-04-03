@@ -1,3 +1,7 @@
+import os
+import subprocess as sp
+import multiprocessing as mp
+
 # scavenger imports
 import libpy
 
@@ -27,6 +31,16 @@ class Task:
         user to work with in the foreground
         """
         exit(1)
+
+    def run_checker(self):
+        # Run the checker in the background
+        checker_proc = mp.Process(target=self.checker)
+        checker_proc.start()
+        # Start a shell for the user to play with
+        shell = sp.Popen(os.environ['SHELL'])
+        shell.wait()
+        # Clean up the checker once the user is done
+        checker_proc.terminate()
 
     def checker(self):
         while True:
