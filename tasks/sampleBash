@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source "$HOME/scavenger/lib/libbash"
 source "$HOME/scavenger/lib/bashTask"
 
 setup() {
