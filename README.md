@@ -1,11 +1,23 @@
 # ResComp Scavenger Hunt
 
-### Preparation
+Everyone endorses "learning by doing", but then just tells new users to go
+read the manpages. *Wait what?!*
+
+Instead, we present `scavenger`: an interactive exploration of UNIX.
+
+**[Spoiler]** You still have to read manpages. And *logs*.
+*Please read the logs.*
+
+
+<br /><br />
+
+
+# Preparation
 
 Before you begin:
 * Make sure you have [vagrant](https://www.vagrantup.com/) installed.
 
-### Beginning the Hunt
+# Beginning the Hunt
 ```
 # We'll install it to your home directory
 cd ~
@@ -31,7 +43,7 @@ cd ~/scavenger
 
 # Contributing to the Hunt
 
-### How to write a Task
+## How to write a Task
 
 You can write a Task in any language.
 
@@ -52,7 +64,7 @@ Take a look at [sampleBash](tasks/sampleBash) and
 [samplePython](tasks/samplePython) for examples on how
 to write a task.
 
-### Developer Tips
+## Developer Tips
 
 * Run any task with `./scavenger -t TASK`
 * Since vagrant mounts the host working directory at `/vagrant`, you can create
