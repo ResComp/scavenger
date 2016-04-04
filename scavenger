@@ -137,9 +137,9 @@ while getopts 't:h' opt ; do
 done
 shift $((OPTIND - 1))
 
+doSetup
 preventMultipleHunts
 Announce 0 "Welcome to the ResComp Scavenger Hunt!"
-doSetup
 
 if [ "$opt_task" = true ]; then
     Announce 0 "Running $singleTask"
