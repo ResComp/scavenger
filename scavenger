@@ -147,8 +147,12 @@ if [ "$opt_task" = true ]; then
     exit 0
 fi
 
+if newChapter "Hello World!"; then
+    runTasks "samplePython"
+fi
+
 if newChapter "Life in the Shell"; then
-    runTasks "samplePython" "pathExplorer"
+    runTasks "pathExplorer"
 fi
 
 Announce 1 "You've completed the ResComp Scavenger Hunt!"
