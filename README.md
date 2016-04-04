@@ -35,8 +35,7 @@ vagrant up
 vagrant ssh
 
 # Now that we're inside vagrant all we gotta do is run it!
-cd ~/scavenger
-./scavenger
+scavenger
 
 # Happy Hunting!
 ```
@@ -57,7 +56,7 @@ sampleTask run
 sampleTask cleanup
 
 # Run sampleTask
-./scavenger -t sampleTask
+scavenger -t sampleTask
 ```
 
 Take a look at [sampleBash](tasks/sampleBash) and
@@ -66,7 +65,7 @@ to write a task.
 
 ## Developer Tips
 
-* Run any task with `./scavenger -t TASK`
+* Run any task with `scavenger -t TASK`
 * Since vagrant mounts the host working directory at `/vagrant`, you can create
 a link to it in the vagrant home directory named `scavenger` (`ln -s /vagrant
 $HOME/scavenger`) and work locally (on the host machine) and only drop into

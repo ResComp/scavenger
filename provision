@@ -2,6 +2,7 @@
 
 rootProvision() {
     yum install -y git
+    ln -s ~/scavenger/scavenger /usr/local/bin/
 }
 
 userProvision() {
