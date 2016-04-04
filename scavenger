@@ -39,7 +39,7 @@ runTasks() {
     tasks=$@
 
     for task in $tasks; do
-        if ! HuntingPrompt="{$task}" _runSingleTask "$task"; then
+        if ! HuntingPrompt="{$(basename "$task")}" _runSingleTask "$task"; then
             Announce 2 "ERROR: task $task aborted"
         fi
     done
@@ -48,28 +48,36 @@ runTasks() {
 _runSingleTask() {
     taskName=$1
 
-    taskFile="$taskDir/$taskName"
-    if [ ! -f "$taskFile" ]; then
-        Text 2 "$taskFile does not exist or is not a file\n"
-        return 1
-    fi
-    if [ ! -x "$taskFile" ]; then
-        Text 2 "$taskFile is not executable\n"
-        return 1
-    fi
+    for task in "$taskDir/$taskName" "$taskName"; do
+        if _checkValidTask "$task"; then
+            if ! $task "setup"; then
+                $task "cleanup"
+                return 1
+            fi
+            if ! $task "run"; then
+                $task "cleanup"
+                return 1
+            fi
+            if ! $task "cleanup"; then
+                return 1
+            fi
+            return 0
+        fi
+    done
 
-    if ! $taskFile "setup"; then
-        $taskFile "cleanup"
-        return 1
+    Announce 2 "Task $taskName not found or not executable"
+    return 1
+}
+
+_checkValidTask() {
+    task=$1
+
+    if [ -f "$task" ]; then
+        if [ -x "$task" ]; then
+            return 0
+        fi
     fi
-    if ! $taskFile "run"; then
-        $taskFile "cleanup"
-        return 1
-    fi
-    if ! $taskFile "cleanup"; then
-        return 1
-    fi
-    return 0
+    return 1
 }
 
 doSetup() {
@@ -134,7 +142,7 @@ Announce 0 "Welcome to the ResComp Scavenger Hunt!"
 doSetup
 
 if [ "$opt_task" = true ]; then
-    Announce 0 "Running $taskDir/$singleTask"
+    Announce 0 "Running $singleTask"
     runTasks "$singleTask"
     exit 0
 fi
