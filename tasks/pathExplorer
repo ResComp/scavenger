@@ -1,0 +1,113 @@
+#!/usr/bin/env python
+
+import sys
+import os
+import shutil
+import subprocess as sp
+import string
+
+# scavenger imports
+import libpy
+import pyTask
+
+class PathExplorer(pyTask.Task):
+    """
+    intro to environment variable
+    add something to front of path
+    say someone broke submission
+    remove bin from path
+
+    pipe md5 of file into submit
+    """
+    def __init__(self):
+        self.level = 0
+        self.tmpdir = "/tmp/pathExplorer"
+        self.lockcontent = "a\tsdfn\t2mNJLeKljKASDF\tLKAJSdfEBNMNMEn2345\tbmnb6nmbb34n\t3" * 100
+        self.shell_settings = os.environ["HUNTSETTINGS"]
+        self.script="""\
+#!/bin/bash
+{0}
+"""
+
+    def setup(self):
+        os.mkdir(self.tmpdir)
+
+        sp.call("sudo install -m 777 -T /dev/null /usr/local/bin/key".split())
+        sp.call("sudo install -m 777 -T /dev/null {0}/lock".format(self.tmpdir).split())
+        with open('/usr/local/bin/key', 'w') as f:
+            f.write(self.script.format('[ -f "$1" ] && cat "$1"'))
+        with open('{0}/lock'.format(self.tmpdir), 'w') as f:
+            f.write(self.lockcontent)
+
+        p = sp.Popen(['which', 'submit'], stdout=sp.PIPE)
+        out, err = p.communicate()
+        sp.call("sudo ln -s {0} /usr/local/bin".format(out).split())
+
+        with open(self.shell_settings, 'w+') as f:
+            f.write("cd() {\necho \"You don't need to cd\"\n}\n")
+
+    def run(self):
+        libpy.announce("Welcome! It's time to explore your PATH")
+        print("""\
+Start off by submitting the contents of the environment variable MARCO
+""")
+        os.environ["MARCO"] = "POLO"
+        os.environ["PATH"] = os.environ["PATH"].split(":", 1)[1]
+        self.run_task()
+
+    def check_submission(self, submission):
+        if self.level == 0:
+            if submission == "POLO":
+                self.l1_correct()
+                return False
+            libpy.announce("{0} is incorrect".format(submission), style=libpy.RED)
+            return False
+        if self.level == 1:
+            if submission == self.lockcontent:
+                libpy.announce("Good job!", style=libpy.BLUE)
+                print(pyTask.EXIT_MSG)
+                return True
+            libpy.announce("That's not quite right", style=libpy.RED)
+            return False
+        raise("Something is wrong")
+
+    def l1_correct(self):
+        libpy.announce("Good job!", style=libpy.BLUE)
+        libpy.text("Ugh! Something is jammed in the submission system!")
+        print("""\
+Fix it up and submit the string "done".
+
+$PATH, `which`, and `type` may be helpful.
+
+By the way, you can reload your path with `PATH=$PATH`
+""")
+        self.level += 1
+        sp.call("sudo rm /usr/local/bin/submit".split())
+        sp.call("sudo install -m 777 -T /dev/null /bin/submit".split())
+        sp.call("sudo install -m 777 -T /dev/null /usr/bin/submit".split())
+        with open('/bin/submit', 'w') as f:
+            f.write(self.script.format('echo "This gunk is snug as a bug in a rug."'))
+        with open('/usr/bin/submit', 'w') as f:
+            fake_submit="""\
+sudo rm /usr/bin/submit
+echo -e "** A wandering bear drops a \`key\` in your PATH **\\n"
+sleep 3
+echo -e "** A lock tumbles out of a cave and into {0}/ **\\n"
+sleep 3
+echo -e "A student walks by and mutters under her breath \\"$HOME/scavenger/bin must be in your PATH\\"\\n"
+sleep 3
+echo -e "A squirrel jumps on your head and chatters \\"Use the key on the lock and submit the output. You may want to use a pipe. Google it.\\"\\n"
+"""
+            f.write(self.script.format(fake_submit.format(self.tmpdir)))
+
+    def cleanup(self):
+        files = ["/bin/submit", "/usr/bin/submit", "/usr/local/bin/key", "/usr/local/bin/submit", self.shell_settings]
+        for f in files:
+            if os.path.isfile(f):
+                sp.call("sudo rm {0}".format(f).split())
+        if os.path.isdir(self.tmpdir):
+            shutil.rmtree(self.tmpdir)
+
+if __name__ == "__main__":
+    task = PathExplorer()
+    task.main(sys.argv)
