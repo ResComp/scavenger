@@ -5,4 +5,10 @@ source "$HOME/scavenger/environment"
 
 source "$BASHLIB/libbash"
 
-printf '%s\n' "$1" > "$SubmitPipe"
+if [ -n "$1" ]; then
+    line=$1
+else
+    read line < "/dev/stdin"
+fi
+
+printf '%s\n' "$line" > "$SubmitPipe"
