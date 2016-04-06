@@ -12,13 +12,9 @@ import pyTask
 
 class PathExplorer(pyTask.Task):
     """
-    intro to environment variable
-    add something to front of path
-    say someone broke submission
-    remove bin from path
-
-    pipe md5 of file into submit
+    This is an into to environment variables, and $PATH in particular
     """
+
     def __init__(self):
         self.level = 0
         self.tmpdir = "/tmp/pathExplorer"
