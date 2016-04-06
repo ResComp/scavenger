@@ -63,15 +63,42 @@ Checker() {
     done
 }
 
+# This is for setting up the environment for the task. Do stuff like
+# creating directories, modifying files, etc.
+setup() {
+    echo "UNIMPLEMENTED"
+    return 1
+}
+
+# This is for running the task that the user must complete.
+#
+# You can use this time to set the enviornment variables to manipulate
+# the shell the user will be running.
+run() {
+    echo "UNIMPLEMENTED"
+    return 1
+}
+
+# This is called whenever something goes wrong at any other point in
+# the task and once at the very end.
+cleanup() {
+    echo "UNIMPLEMENTED"
+    return 1
+}
+
+# This function will be called with every new submission.
+#
+# Return False to continue the loop, and True to exit out of it.
+check_submission() {
+    echo "UNIMPLEMENTED"
+    return 1
+}
+
 # This calls the functions setup(), run(), and cleanup() as appropriate
 TaskMain() {
-    arg=$1
-
-    if [ "$arg" = "setup" ]; then
-        setup
-    elif [ "$arg" = "run" ]; then
-        run
-    elif [ "$arg" = "cleanup" ]; then
+    if ! setup || ! run; then
         cleanup
+        return 1
     fi
+    cleanup
 }

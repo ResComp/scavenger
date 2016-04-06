@@ -50,15 +50,7 @@ _runSingleTask() {
 
     for task in "$taskDir/$taskName" "$taskName"; do
         if _checkValidTask "$task"; then
-            if ! $task "setup"; then
-                $task "cleanup"
-                return 1
-            fi
-            if ! $task "run"; then
-                $task "cleanup"
-                return 1
-            fi
-            if ! $task "cleanup"; then
+            if ! $task; then
                 return 1
             fi
             return 0

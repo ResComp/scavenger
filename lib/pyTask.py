@@ -10,26 +10,31 @@ You may now exit out of this shell with the keys "ctrl+d" or the "exit" command'
 """
 
 class Task:
-    def main(self, argv):
-        arg = argv[1]
-        if arg == "setup":
+    def main(self):
+        try:
             self.setup()
-        elif arg == "run":
             self.run()
-        elif arg == "cleanup":
+        except Exception as e:
+            print(e)
             self.cleanup()
+            exit(1)
+        self.cleanup()
 
     def setup(self):
         """
-        This is for setting up the environment for the task
+        This is for setting up the environment for the task. Do stuff like
+        creating directories, modifying files, etc.
         """
-        exit(1)
+        raise UnimplementedError("UNIMPLEMENTED")
 
     def run(self):
         """
         This is for running the task that the user must complete.
+
+        You can use this time to set the enviornment variables to manipulate
+        the shell the user will be running.
         """
-        exit(1)
+        raise UnimplementedError("UNIMPLEMENTED")
 
     def run_task(self):
         """
@@ -53,13 +58,21 @@ class Task:
 
     def check_submission(self, submission):
         """
-        This function returns True on success and False otherwise.
+        This function will be called with every new submission.
+
+        Return False to continue the loop, and True to exit out of it.
         """
-        exit(1)
+        raise UnimplementedError("UNIMPLEMENTED")
 
     def cleanup(self):
         """
         This is called whenever something goes wrong at any other point in
-        the task.
+        the task and once at the very end.
         """
-        exit(1)
+        raise UnimplementedError("UNIMPLEMENTED")
+
+class UnimplementedError(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)

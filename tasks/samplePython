@@ -47,4 +47,4 @@ Remember, you want to create a file in {0}/ and submit the file name
 
 if __name__ == "__main__":
     task = SamplePython()
-    task.main(sys.argv)
+    task.main()

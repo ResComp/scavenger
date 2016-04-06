@@ -46,18 +46,12 @@ scavenger
 
 You can write a Task in any language.
 
-A Task is an executable file in `tasks/` that accepts 3 commands:
-`setup`, `run`, and `cleanup`.
+A Task is any executable file in `tasks/`
 
-```
-# For sampleTask to be a valid task, these 3 commands have to run successfully:
-sampleTask setup
-sampleTask run 
-sampleTask cleanup
+The structure of a Task is a `setup()`, `run()`, `check_submission()`,
+and `cleanup()` function.
 
-# Run sampleTask
-scavenger -t sampleTask
-```
+Run your custom Task with `scavenger -t sampleTask`
 
 Take a look at [sampleBash](tasks/sampleBash) and
 [samplePython](tasks/samplePython) for examples on how

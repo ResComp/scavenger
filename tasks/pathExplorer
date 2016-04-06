@@ -110,4 +110,4 @@ echo -e "A squirrel jumps on your head and chatters \\"Use the key on the lock a
 
 if __name__ == "__main__":
     task = PathExplorer()
-    task.main(sys.argv)
+    task.main()
