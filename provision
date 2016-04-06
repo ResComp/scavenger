@@ -2,10 +2,12 @@
 
 rootProvision() {
     yum install -y git
-    ln -s ~/scavenger/scavenger /usr/local/bin/
+    mkdir -p /etc/scavenger
 }
 
 userProvision() {
+    sudo ln -s ~/scavenger/scavenger /usr/local/bin/
+    sudo ln -s ~/scavenger/environment /etc/scavenger/
     git clone https://github.com/ResComp/scavenger
     cat <<"EOF" >> ~/.bashrc
 PS1="\${HuntingPrompt}[\u \w]\\$ "

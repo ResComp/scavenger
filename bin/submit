@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # The Master source
-source "$HOME/scavenger/environment"
+source "/etc/scavenger/environment"
 
 source "$BASHLIB/libbash"
 
