@@ -19,7 +19,7 @@ class PathExplorer(pytask.Task):
         self.level = 0
         self.tmpdir = "/tmp/pathExplorer"
         self.lockcontent = "a\tsdfn\t2mNJLeKljKASDF\tLKAJSdfEBNMNMEn2345\tbmnb6nmbb34n\t3" * 100
-        self.shell_settings = os.environ["HUNTSETTINGS"]
+        self.shell_settings = os.environ["SCAVENGERHUNTSETTINGS"]
         self.script="""\
 #!/bin/bash
 {0}

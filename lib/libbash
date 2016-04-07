@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SubmitPipe="$DATADIR/submit"
-RunDir="$DATADIR/run"
+SubmitPipe="$SCAVENGERDATADIR/submit"
+RunDir="$SCAVENGERDATADIR/run"
 
 Text() {
     setting="$1" # "0" = bold, "1" = blue, "2" = red
@@ -124,5 +124,5 @@ RunSingleTask() {
     task=$1
     taskName=$2
 
-    HuntingPrompt="{${taskName}}" $task
+    SCAVENGERHUNTINGPROMPT="{${taskName}}" $task
 }

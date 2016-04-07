@@ -1,10 +1,10 @@
 #!/bin/bash
 
-export SOURCEDIR="$HOME/scavenger"
-export DATADIR="$HOME/.scavenger"
-export HUNTSETTINGS="$HOME/.hunt_settings"
+export SCAVENGERSOURCEDIR="$HOME/scavenger"
+export SCAVENGERDATADIR="$HOME/.scavenger"
+export SCAVENGERHUNTSETTINGS="$HOME/.hunt_settings"
 export SCAVENGERTASKPATH="$HOME/scavenger/task"
 export SCAVENGERSTORYPATH="$HOME/scavenger/story"
 
-export BASHLIB="$SOURCEDIR/lib"
-export PYTHONPATH="$PYTHONPATH:$SOURCEDIR/lib"
+export BASHLIB="$SCAVENGERSOURCEDIR/lib"
+export PYTHONPATH="$PYTHONPATH:$SCAVENGERSOURCEDIR/lib"

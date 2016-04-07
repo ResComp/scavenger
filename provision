@@ -10,7 +10,7 @@ userProvision() {
     sudo ln -s ~/scavenger/environment /etc/scavenger/
     git clone https://github.com/ResComp/scavenger
     cat <<"EOF" >> ~/.bashrc
-PS1="\${HuntingPrompt}[\u \w]\\$ "
+PS1="\${SCAVENGERHUNTINGPROMPT}[\u \w]\\$ "
 
 if [ -f ~/.hunt_settings ]; then
     . ~/.hunt_settings

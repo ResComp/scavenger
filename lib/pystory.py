@@ -79,7 +79,7 @@ class Story:
         Returns True if the task has an exit code of 0. Return False otherwise
         """
         env = os.environ.copy()
-        env["HuntingPrompt"] = "{{{0}}}".format(taskname)
+        env["SCAVENGERHUNTINGPROMPT"] = "{{{0}}}".format(taskname)
         child = sp.Popen(task, env=env)
         child.communicate()
         return child.returncode == 0

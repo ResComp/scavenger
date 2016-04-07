@@ -1,7 +1,7 @@
 import os
 import inspect
 
-SUBMIT_PIPE = "{0}/submit".format(os.environ['DATADIR'])
+SUBMIT_PIPE = "{0}/submit".format(os.environ['SCAVENGERDATADIR'])
 
 # Styles
 BOLD=1

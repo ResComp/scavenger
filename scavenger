@@ -8,8 +8,8 @@ source "$BASHLIB/libbash"
 doSetup() {
     echo -n "Initializing..."
 
-    export PATH="$SOURCEDIR/bin:$PATH"
-    mkdir -p -m 700 "$DATADIR" "$RunDir"
+    export PATH="$SCAVENGERSOURCEDIR/bin:$PATH"
+    mkdir -p -m 700 "$SCAVENGERDATADIR" "$RunDir"
     # Flush the pipe
     rm -f "$SubmitPipe"
     mkfifo -m 600 "$SubmitPipe"
@@ -50,7 +50,7 @@ set -e
 
 readonly prog="${0##*/}"
 curChapter=0
-taskDir="$SOURCEDIR/task"
+taskDir="$SCAVENGERSOURCEDIR/task"
 
 unset -v opt_task
 while getopts 't:h' opt ; do
