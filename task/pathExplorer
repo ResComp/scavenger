@@ -8,9 +8,9 @@ import string
 
 # scavenger imports
 import libpy
-import pyTask
+import pytask
 
-class PathExplorer(pyTask.Task):
+class PathExplorer(pytask.Task):
     """
     This is an into to environment variables, and $PATH in particular
     """
@@ -61,7 +61,7 @@ Start off by submitting the contents of the environment variable MARCO
         if self.level == 1:
             if submission == self.lockcontent:
                 libpy.announce("Good job!", style=libpy.BLUE)
-                print(pyTask.EXIT_MSG)
+                print(pytask.EXIT_MSG)
                 return True
             libpy.announce("That's not quite right", style=libpy.RED)
             return False

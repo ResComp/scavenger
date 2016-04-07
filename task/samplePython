@@ -6,9 +6,9 @@ import shutil
 
 # scavenger imports
 import libpy
-import pyTask
+import pytask
 
-class SamplePython(pyTask.Task):
+class SamplePython(pytask.Task):
     def __init__(self):
         self.sample_dir = "/tmp/samplePython"
 
@@ -34,7 +34,7 @@ Remember, you want to create a file in {0}/ and submit the file name
         resp_file = "{0}/{1}".format(self.sample_dir, submission)
         if os.path.isfile(resp_file):
             libpy.announce("Good job!", style=libpy.BLUE)
-            print(pyTask.EXIT_MSG)
+            print(pytask.EXIT_MSG)
             return True
         err_msg = "Error: {0} does not exist or is not a file".format(resp_file)
         libpy.announce(err_msg, style=libpy.RED)
