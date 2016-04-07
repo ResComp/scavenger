@@ -1,6 +1,7 @@
 import os
 import subprocess as sp
 import multiprocessing as mp
+import traceback
 
 # scavenger imports
 import libpy
@@ -14,8 +15,9 @@ class Task:
         try:
             self.setup()
             self.run()
-        except Exception as e:
-            print(e)
+        except Exception:
+            print(traceback.format_exc())
+            print("Calling cleanup()...")
             self.cleanup()
             exit(1)
         self.cleanup()
@@ -25,7 +27,7 @@ class Task:
         This is for setting up the environment for the task. Do stuff like
         creating directories, modifying files, etc.
         """
-        raise UnimplementedError("UNIMPLEMENTED")
+        raise libpy.UnimplementedError()
 
     def run(self):
         """
@@ -34,7 +36,7 @@ class Task:
         You can use this time to set the enviornment variables to manipulate
         the shell the user will be running.
         """
-        raise UnimplementedError("UNIMPLEMENTED")
+        raise libpy.UnimplementedError()
 
     def run_task(self):
         """
@@ -62,17 +64,11 @@ class Task:
 
         Return False to continue the loop, and True to exit out of it.
         """
-        raise UnimplementedError("UNIMPLEMENTED")
+        raise libpy.UnimplementedError()
 
     def cleanup(self):
         """
         This is called whenever something goes wrong at any other point in
         the task and once at the very end.
         """
-        raise UnimplementedError("UNIMPLEMENTED")
-
-class UnimplementedError(Exception):
-    def __init__(self, value):
-        self.value = value
-    def __str__(self):
-        return repr(self.value)
+        raise libpy.UnimplementedError()

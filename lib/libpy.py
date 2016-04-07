@@ -1,25 +1,61 @@
 import os
+import inspect
 
 SUBMIT_PIPE = "{0}/submit".format(os.environ['DATADIR'])
 
 # Styles
-BOLD=0
-BLUE=1
-RED=2
+BOLD=1
+UDS=2  # Underscore
+REV=4  # Reversed foreground/background color
+BLUE=8
+RED=16
+MAG=32 # Magenta
 
-# Valid styles: bold, red, blue
+class UnimplementedError(Exception):
+    def __init__(self):
+        self.value = inspect.stack()[1][3]
+    def __str__(self):
+        return "function {0} is UNIMPLEMENTED".format(repr(self.value))
+
+# Compose different styles through the '+' operator
+#
+# For bold and blue text, pass in style=BOLD+BLUE
 def text(message, style=BOLD):
-    bold = '\033[1m'
     normal = '\033[0m'
-    blue = '\033[94m'
-    red = '\033[91m'
 
-    delimiter = bold
-    if style == BLUE:
-        delimiter += blue
-    if style == RED:
+    bold = '\033[1m'
+    underscore = '\033[4m'
+    reverse = '\033[7m'
+
+    red = '\033[31m'
+    blue = '\033[34m'
+    magenta = '\033[35m'
+
+    delimiter = ''
+    if style & BOLD == BOLD:
+        delimiter += bold
+    if style & UDS == UDS:
+        delimiter += underscore
+    if style & REV == REV:
+        delimiter += reverse
+    if style & RED == RED:
         delimiter += red
-    print("{0}{1}{2}".format(delimiter, message, normal))
+    if style & BLUE == BLUE:
+        delimiter += blue 
+    if style & MAG == MAG:
+        delimiter += magenta
+    return "{0}{1}{2}".format(delimiter, message, normal)
 
 def announce(message, style=BOLD):
-    text("\n{0}\n".format(message), style)
+    print(text("\n{0}\n".format(message), style))
+
+# Check if the class attribute is defined
+#
+# To check if "self.attribute" is defined, pass in (self, "attribute")
+def attr_defined(self, var):
+    try:
+        eval("self.{0}".format(var))
+    except AttributeError:
+        return False
+    else:
+        return True

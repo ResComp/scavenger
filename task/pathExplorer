@@ -56,19 +56,19 @@ Start off by submitting the contents of the environment variable MARCO
             if submission == "POLO":
                 self.l1_correct()
                 return False
-            libpy.announce("{0} is incorrect".format(submission), style=libpy.RED)
+            libpy.announce("{0} is incorrect".format(submission), style=libpy.BOLD+libpy.RED)
             return False
         if self.level == 1:
             if submission == self.lockcontent:
-                libpy.announce("Good job!", style=libpy.BLUE)
+                libpy.announce("Good job!", style=libpy.BOLD+libpy.BLUE)
                 print(pytask.EXIT_MSG)
                 return True
-            libpy.announce("That's not quite right", style=libpy.RED)
+            libpy.announce("That's not quite right", style=libpy.BOLD+libpy.RED)
             return False
         raise("Something is wrong")
 
     def l1_correct(self):
-        libpy.announce("Good job!", style=libpy.BLUE)
+        libpy.announce("Good job!", style=libpy.BOLD+libpy.BLUE)
         libpy.text("Ugh! Something is jammed in the submission system!")
         print("""\
 Fix it up and submit the string "done".
