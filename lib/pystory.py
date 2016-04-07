@@ -8,12 +8,6 @@ import libpy
 import pystory
 
 class Story:
-    def __init__(self, tasks):
-        """
-        A list of task names
-        """
-        self.tasks = tasks
-
     def main(self):
         try:
             self.setup()
@@ -26,6 +20,10 @@ class Story:
             self.cleanup()
 
     def run_tasks(self, tasks):
+        """
+        Pass in a list of tasks, these can be in the $SCAVENGERTASKPATH
+        or an absolute path
+        """
         for task in tasks:
             question = "Would you like to continue with task {0}? ".format(task)
             if not self.get_consent(question):

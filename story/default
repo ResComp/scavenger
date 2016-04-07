@@ -23,11 +23,11 @@ class DefaultStory(pystory.Story):
         pass
 
     def run(self):
-        self.run_tasks(self.tasks)
+        self.run_tasks(["samplePython", "pathExplorer"])
 
     def cleanup(self):
         pass
 
 if __name__ == "__main__":
-    story = DefaultStory(["samplePython", "pathExplorer"])
+    story = DefaultStory()
     story.main()
