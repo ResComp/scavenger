@@ -22,6 +22,9 @@ class DefaultStory(pystory.Story):
     def setup(self):
         pass
 
+    def run(self):
+        self.run_tasks(self.tasks)
+
     def cleanup(self):
         pass
 

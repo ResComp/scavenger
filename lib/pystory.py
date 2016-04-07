@@ -8,14 +8,16 @@ import libpy
 import pystory
 
 class Story:
-    # A list of task names
     def __init__(self, tasks):
+        """
+        A list of task names
+        """
         self.tasks = tasks
 
     def main(self):
         try:
             self.setup()
-            self.run_tasks(self.tasks)
+            self.run()
         except Exception:
             print(traceback.format_exc())
             print("Story error: Calling cleanup()...")
@@ -52,9 +54,11 @@ class Story:
             return True
         return False
 
-    # Return None if no valid task is found
-    # Return an absolute path if not already
     def resolve_task(self, task):
+        """
+        Return None if no valid task is found
+        Returns the absolute path of the task
+        """
         if self.valid_task(task):
             return task
         taskpath = os.environ["SCAVENGERTASKPATH"].split(":")
@@ -64,14 +68,18 @@ class Story:
                 return res_task
         return None
 
-    # Takes in an absolute path
     def valid_task(self, task):
+        """
+        Takes in an absolute path
+        """
         return os.path.isfile(task) and os.access(task, os.X_OK)
 
-    # Takes in an absolute path to an executable
-    #
-    # Returns True if the task has an exit code of 0. Return False otherwise
     def run_single_task(self, task, taskname):
+        """
+        Takes in an absolute path to an executable
+
+        Returns True if the task has an exit code of 0. Return False otherwise
+        """
         env = os.environ.copy()
         env["HuntingPrompt"] = "{{{0}}}".format(taskname)
         child = sp.Popen(task, env=env)
@@ -79,6 +87,9 @@ class Story:
         return child.returncode == 0
 
     def setup(self):
+        raise libpy.UnimplementedError()
+
+    def run(self):
         raise libpy.UnimplementedError()
 
     def cleanup(self):
