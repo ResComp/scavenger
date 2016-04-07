@@ -5,7 +5,7 @@ SUBMIT_PIPE = "{0}/submit".format(os.environ['DATADIR'])
 
 # Styles
 BOLD=1
-UDS=2  # Underscore
+UDL=2  # Underline
 REV=4  # Reversed foreground/background color
 BLUE=8
 RED=16
@@ -34,7 +34,7 @@ def text(message, style=BOLD):
     delimiter = ''
     if style & BOLD == BOLD:
         delimiter += bold
-    if style & UDS == UDS:
+    if style & UDL == UDL:
         delimiter += underscore
     if style & REV == REV:
         delimiter += reverse

@@ -69,7 +69,7 @@ Start off by submitting the contents of the environment variable MARCO
 
     def l1_correct(self):
         libpy.announce("Good job!", style=libpy.BOLD+libpy.BLUE)
-        libpy.text("Ugh! Something is jammed in the submission system!")
+        print(libpy.text("Ugh! Something is jammed in the submission system!", style=libpy.UDL+libpy.MAG))
         print("""\
 Fix it up and submit the string "done".
 
