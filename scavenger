@@ -5,73 +5,6 @@ source "/etc/scavenger/environment"
 
 source "$BASHLIB/libbash"
 
-# So what do we want to teach them about?
-# - XXX READING THE LOGS
-# - shell tools
-# - dotfiles (config files in general)
-# - where to find things (/etc vs /bin vs /usr ...etc.)
-# - services
-# - firewall (just let them know it exists)
-# - selinux (just let them know it exists)
-# - how-to write shell
-# - XXX READING THE LOGS
-
-# Ideas
-# - process that spawns others that print to screen, have them use ps, tr, cut,
-#   and kill
-
-newChapter() {
-    title=$1
-
-    Announce 0 "Chapter $curChapter: $title"
-    curChapter=$((curChapter + 1))
-    while true; do
-        read -p "$(Text 0 "Do you want to skip this chapter? ")" yn
-        case $yn in
-            yes ) return 1;;
-            no ) return 0;;
-            * ) Text 2 "Please answer yes or no.\n";;
-        esac
-    done
-}
-
-runTasks() {
-    tasks=$@
-
-    for task in $tasks; do
-        if ! HuntingPrompt="{$(basename "$task")}" _runSingleTask "$task"; then
-            Announce 2 "ERROR: task $task aborted"
-        fi
-    done
-}
-
-_runSingleTask() {
-    taskName=$1
-
-    for task in "$taskDir/$taskName" "$taskName"; do
-        if _checkValidTask "$task"; then
-            if ! $task; then
-                return 1
-            fi
-            return 0
-        fi
-    done
-
-    Announce 2 "Task $taskName not found or not executable"
-    return 1
-}
-
-_checkValidTask() {
-    task=$1
-
-    if [ -f "$task" ]; then
-        if [ -x "$task" ]; then
-            return 0
-        fi
-    fi
-    return 1
-}
-
 doSetup() {
     echo -n "Initializing..."
 
@@ -84,21 +17,6 @@ doSetup() {
     echo "Done!"
 }
 
-_usage() {
-    cat <<EOF
-
-${prog} [options]
-
-The ResComp Scavenger Hunt
-
-Options:
-    -t TASK         Run a single task and exit
-    -h              Prints this help message
-
-EOF
-    exit 1
-}
-
 preventMultipleHunts() {
     pidFileName="scavenger.pid"
     if ProcessIsRunning "$pidFileName"; then
@@ -109,6 +27,21 @@ preventMultipleHunts() {
     rm -f "$(PIDFilePath "$pidFileName")"
     currentPID=$$
     CreatePIDFile "scavenger.pid" "$currentPID"
+}
+
+_usage() {
+    cat <<EOF
+
+${prog} [options] STORY
+
+The ResComp Scavenger Hunt
+
+Options:
+    -t TASK         Run a single task and exit
+    -h              Prints this help message
+
+EOF
+    exit 1
 }
 
 ### Begin Main Script ###
@@ -129,22 +62,23 @@ while getopts 't:h' opt ; do
 done
 shift $((OPTIND - 1))
 
+story=$1
+
 doSetup
 preventMultipleHunts
 Announce 0 "Welcome to the ResComp Scavenger Hunt!"
 
 if [ "$opt_task" = true ]; then
     Announce 0 "Running $singleTask"
-    runTasks "$singleTask"
+    RunTasks "$singleTask"
     exit 0
 fi
 
-if newChapter "Hello World!"; then
-    runTasks "samplePython"
-fi
-
-if newChapter "Life in the Shell"; then
-    runTasks "pathExplorer"
+res_story="$(ResolveInPath "$SCAVENGERSTORYPATH" "$story")"
+if [ -z "$story" ]; then
+    $(ResolveInPath "$SCAVENGERSTORYPATH" "default")
+else
+    $res_story
 fi
 
 Announce 1 "You've completed the ResComp Scavenger Hunt!"

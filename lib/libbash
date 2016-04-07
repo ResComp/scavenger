@@ -67,3 +67,62 @@ PIDFilePath() {
 
     echo "$RunDir/$pidFileName"
 }
+
+# Prints an absolute path if found
+ResolveInPath() {
+    path=$1
+    target=$2
+
+    if ValidExecutable "$target"; then
+        printf "$target"
+        return
+    fi
+    OLDIFS=$IFS
+    IFS=':'
+    for filepath in $path; do
+        res_task="$filepath/$target"
+        if ValidExecutable "$res_task"; then
+            printf "$res_task"
+            IFS=$OLDIFS
+            return
+        fi
+    done
+    IFS=$OLDIFS
+}
+
+# Takes in an absolute path
+#
+# Return 0 if the file is a valid executable. Return nonzero otherwise
+ValidExecutable() {
+    target=$1
+
+    if [ -f "$target" ]; then
+        if [ -x "$target" ]; then
+            return 0
+        fi
+    fi
+    return 1
+}
+
+RunTasks() {
+    tasks=$@
+
+    for task in $tasks; do
+        res_task=$(ResolveInPath "$SCAVENGERTASKPATH" "$task")
+        if [ -z "$res_task" ]; then
+            continue
+        fi
+        taskname=$(basename "$task")
+        if RunSingleTask "$res_task" "$taskname"; then
+            continue
+        fi
+        Announce 2 "ERROR: task $task aborted"
+    done
+}
+
+RunSingleTask() {
+    task=$1
+    taskName=$2
+
+    HuntingPrompt="{${taskName}}" $task
+}

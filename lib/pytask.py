@@ -17,10 +17,11 @@ class Task:
             self.run()
         except Exception:
             print(traceback.format_exc())
-            print("Calling cleanup()...")
+            print("Task error: Calling cleanup()...")
             self.cleanup()
             exit(1)
-        self.cleanup()
+        else:
+            self.cleanup()
 
     def setup(self):
         """
