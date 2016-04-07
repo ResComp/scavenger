@@ -117,7 +117,7 @@ set -e
 
 readonly prog="${0##*/}"
 curChapter=0
-taskDir="$SOURCEDIR/tasks"
+taskDir="$SOURCEDIR/task"
 
 unset -v opt_task
 while getopts 't:h' opt ; do
