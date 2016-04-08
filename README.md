@@ -44,17 +44,15 @@ scavenger
 
 ## How to write a Task
 
-You can write a Task in any language.
+A Task is any executable file in `task/`, *but python is preferred*.
 
-A Task is any executable file in `task/`
-
-The structure of a Task is a `setup()`, `run()`, `check_submission()`,
-and `cleanup()` function.
+The structure of a Task is a `setup`, `run`, `check_submission`,
+and `cleanup` function.
 
 Run your custom Task with `scavenger -t sampleTask`
 
-Take a look at [sampleBash](task/sampleBash) and
-[samplePython](task/samplePython) for examples on how
+Take a look at [samplePython](task/samplePython) and
+[sampleBash](task/sampleBash) for examples on how
 to write a task.
 
 ## Developer Tips
