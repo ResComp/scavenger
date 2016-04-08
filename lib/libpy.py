@@ -1,4 +1,5 @@
 import os
+import sys
 import inspect
 
 SUBMIT_PIPE = "{0}/submit".format(os.environ['SCAVENGERDATADIR'])
@@ -59,3 +60,8 @@ def attr_defined(self, var):
         return False
     else:
         return True
+
+def input(prompt):
+    if sys.version_info < (3,):
+        return raw_input(prompt)
+    return input(prompt)

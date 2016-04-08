@@ -41,10 +41,7 @@ class Story:
         valid_resp = ["yes", "no"]
         resp = ''
         while resp not in valid_resp:
-            if sys.version_info < (3,):
-                resp = raw_input(prompt)
-            else:
-                resp = input(prompt)
+            resp = libpy.input(prompt)
             if resp not in valid_resp:
                 reject = "Please respond yes or no"
                 print(libpy.text(reject, style=libpy.BOLD+libpy.RED))
