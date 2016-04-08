@@ -4,7 +4,7 @@ source "$BASHLIB/libbash"
 source "$BASHLIB/bashtask"
 
 setup() {
-    Announce 0 "Doing setup!"
+    Announce "Doing setup!"
     mkdir -p "$SampleDir"
 }
 
@@ -16,7 +16,7 @@ $ submit <file_name>
 EOF
 
 run() {
-    Announce 0 "Running task!"
+    Announce "Running task!"
     printf "${runIntro}\n\n" "$SampleDir"
     RunTask
 }
@@ -31,18 +31,18 @@ check_submission() {
 
     respFile=$SampleDir/$submission
     if [ -f "$respFile" ]; then
-        Announce 1 "Good job!"
+        Announce "Good job!" BOLD BLUE
         echo "$ExitMsg"
         return 0
     fi
-    Announce 2 "Error: file $respFile does not exist or is not a file"
+    Announce "Error: file $respFile does not exist or is not a file" BOLD RED
     printf "${checkReminder}\n" "$SampleDir"
     return 1
 }
 
 # cleanup() is called whenever anything else fails, and once at the very end
 cleanup() {
-    Announce 0 "Doing cleanup!"
+    Announce "Doing cleanup!"
     rm -rf "$SampleDir"
 }
 

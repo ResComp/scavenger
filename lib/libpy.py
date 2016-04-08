@@ -4,12 +4,12 @@ import inspect
 SUBMIT_PIPE = "{0}/submit".format(os.environ['SCAVENGERDATADIR'])
 
 # Styles
-BOLD=1
-UDL=2  # Underline
-REV=4  # Reversed foreground/background color
-BLUE=8
-RED=16
-MAG=32 # Magenta
+BOLD = 1
+UDL = 2  # Underline
+REV = 4  # Reversed foreground/background color
+BLUE = 8
+RED = 16
+MAG = 32 # Magenta
 
 class UnimplementedError(Exception):
     def __init__(self):
@@ -24,7 +24,7 @@ def text(message, style=BOLD):
     normal = '\033[0m'
 
     bold = '\033[1m'
-    underscore = '\033[4m'
+    underline = '\033[4m'
     reverse = '\033[7m'
 
     red = '\033[31m'
@@ -35,7 +35,7 @@ def text(message, style=BOLD):
     if style & BOLD == BOLD:
         delimiter += bold
     if style & UDL == UDL:
-        delimiter += underscore
+        delimiter += underline
     if style & REV == REV:
         delimiter += reverse
     if style & RED == RED:

@@ -21,7 +21,7 @@ preventMultipleHunts() {
     pidFileName="scavenger.pid"
     if ProcessIsRunning "$pidFileName"; then
         oldPID=$(PIDFromFile "$pidFileName")
-        Announce 2 "The Hunt has already begun. It has pid $oldPID"
+        Announce "The Hunt has already begun. It has pid $oldPID" BOLD RED
         exit 1
     fi
     rm -f "$(PIDFilePath "$pidFileName")"
@@ -66,10 +66,10 @@ story=$1
 
 doSetup
 preventMultipleHunts
-Announce 0 "Welcome to the ResComp Scavenger Hunt!"
+Announce "Welcome to the ResComp Scavenger Hunt!"
 
 if [ "$opt_task" = true ]; then
-    Announce 0 "Running $singleTask"
+    Announce "Running $singleTask"
     RunTasks "$singleTask"
     exit 0
 fi
@@ -81,4 +81,4 @@ else
     $res_story
 fi
 
-Announce 1 "You've completed the ResComp Scavenger Hunt!"
+Announce "You've completed the ResComp Scavenger Hunt!" BOLD BLUE

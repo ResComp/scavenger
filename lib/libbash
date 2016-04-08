@@ -3,25 +3,46 @@
 SubmitPipe="$SCAVENGERDATADIR/submit"
 RunDir="$SCAVENGERDATADIR/run"
 
+# Styles
+#
+# BOLD
+# UDL  # Underline
+# REV  # Reversed foreground/background color
+# BLUE
+# RED
+# MAG  # Magenta
 Text() {
-    setting="$1" # "0" = bold, "1" = blue, "2" = red
-    message=$2
+    message=$1
+    shift
+    settings=$@
 
-    normal=$(tput sgr0)
-    different=$(tput bold)
-    if [ "$setting" = "1" ]; then
-        different="${different}$(tput setaf 4)"
-    elif [ "$setting" = "2" ]; then
-        different="${different}$(tput setaf 1)"
-    elif [ "$setting" = "3" ]; then
-        different=$normal
+    normal='\033[0m'
+
+    bold='\033[1m'
+    underline='\033[4m'
+    reverse='\033[7m'
+
+    red='\033[31m'
+    blue='\033[34m'
+    magenta='\033[35m'
+
+    delimiter=''
+    for style in $settings; do
+        [ "$style" = "BOLD" ] && delimiter+=$bold
+        [ "$style" = "UDL" ] && delimiter+=$underline
+        [ "$style" = "REV" ] && delimiter+=$reverse
+        [ "$style" = "RED" ] && delimiter+=$red
+        [ "$style" = "BLUE" ] && delimiter+=$blue
+        [ "$style" = "MAG" ] && delimiter+=$magenta
+    done
+    if [ -z "$settings" ]; then
+        delimiter=$bold
     fi
-
-    echo -n -e "${different}${message}${normal}"
+    echo -n "${delimiter}${message}${normal}"
 }
 
 Announce() {
-    Text "$1" "\n${2}\n\n"
+    echo -e "\n$(Text "$@")\n"
 }
 
 # This takes as input the name of the pid file. Not the path.
@@ -116,7 +137,7 @@ RunTasks() {
         if RunSingleTask "$res_task" "$taskname"; then
             continue
         fi
-        Announce 2 "ERROR: task $task aborted"
+        Announce "ERROR: task $task aborted" BOLD RED
     done
 }
 
