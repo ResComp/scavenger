@@ -58,10 +58,13 @@ to write a task.
 ## Developer Tips
 
 * Run any task with `scavenger -t TASK`
-* Since vagrant mounts the host working directory at `/vagrant`, you can create
-a link to it in the vagrant home directory named `scavenger` (`ln -s /vagrant
-$HOME/scavenger`) and work locally (on the host machine) and only drop into
-vagrant to test changes.
+* Vagrant mounts the directory with the file named `Vagrantfile` at
+`/vagrant/` within the vagrant virtual machine. Inside vagrant,
+remove the default checked out repository
+(`rm -rf ~/scavenger`) and create a symbolic link to
+it in the vagrant home directory named `scavenger` (`ln -s /vagrant
+$HOME/scavenger`). Now changes made on the host machine (locally on your
+computer) will show up inside vagrant.
 
 # FAQ
 
