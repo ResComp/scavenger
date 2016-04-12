@@ -35,7 +35,7 @@ source "$BASHLIB/libbash"
         sp.call("sudo install -m 777 -T /dev/null {0}/lock".format(self.tmpdir).split())
         with open('/usr/local/bin/key', 'w') as f:
             f.write(self.script.format("""\
-[ -z "$1" ] && echo -e "This $(Text "key") is to be used on a $(Text "lock")"
+[ -z "$1" ] && Speak "This $(Text "key") is to be used on a $(Text "lock")"
 [ -f "$1" ] && cat "$1"
 """))
         with open('{0}/lock'.format(self.tmpdir), 'w') as f:
@@ -55,7 +55,7 @@ cd() {
 
     def run(self):
         libpy.announce("Welcome! It's time to explore your PATH")
-        print("""\
+        libpy.speak("""\
 Start off by submitting the contents of the environment variable MARCO
 """)
         os.environ["MARCO"] = "POLO"
@@ -67,12 +67,13 @@ Start off by submitting the contents of the environment variable MARCO
             if submission == "POLO":
                 self.l1_correct()
                 return False
-            libpy.announce("\"{0}\" is incorrect".format(submission), style=libpy.BOLD+libpy.RED)
+            libpy.announce("\"{0}\" is incorrect".format(submission),
+                    style=libpy.BOLD+libpy.RED)
             return False
         if self.level == 1:
             if submission == self.lockcontent:
                 libpy.announce("Good job!", style=libpy.BOLD+libpy.BLUE)
-                print(pytask.EXIT_MSG)
+                libpy.speak(pytask.EXIT_MSG)
                 return True
             libpy.announce("That's not quite right", style=libpy.BOLD+libpy.RED)
             return False
@@ -80,9 +81,10 @@ Start off by submitting the contents of the environment variable MARCO
 
     def l1_correct(self):
         libpy.announce("Good job!", style=libpy.BOLD+libpy.BLUE)
-        print(libpy.text("Ugh! Something is jammed in the submission system!", style=libpy.UDL+libpy.MAG))
-        print("""\
-What does this mean? Try submitting the string "done" to see what's going on.
+        libpy.speak("Ugh! Something is jammed in the submission system!",
+                style=libpy.UDL+libpy.MAG)
+        libpy.speak("""\
+What does this mean? Try submitting the string "done" to see what's going on.\
 
 $PATH, `which`, and `type` may be helpful.
 """)
@@ -93,25 +95,26 @@ $PATH, `which`, and `type` may be helpful.
         with open('/bin/submit', 'w') as f:
             f.write(self.script.format("""\
 Announce "Submission is broken!" BOLD RED
-echo "There's something stuck in your path...Eliminate it and submit "done"!\n"
+Speak "There's something stuck in your path...Eliminate it and submit \\"done\\"!\n"
 """))
         with open('/usr/bin/submit', 'w') as f:
             fake_submit="""\
 sudo rm /usr/bin/submit
-echo -e "** A wandering bear drops a $(Text 'key') in your PATH **\n"
+Speak "** A wandering bear drops a $(Text 'key') in your PATH **\n"
 sleep 2
-echo -e "** A $(Text "lock") tumbles out of a cave and into $(Text "{0}/") **\n"
+Speak "** A $(Text "lock") tumbles out of a cave and into $(Text "{0}/") **\n"
 sleep 2
-echo -e "A student walks by and mutters under her breath
+Speak "A student walks by and mutters under her breath \\
 \\"$(Text "$HOME/scavenger/bin") must be in your PATH\\"\n"
 sleep 2
-echo -e "A squirrel jumps on your head and chatters \\"Use the key on the lock
+Speak "A squirrel jumps on your head and chatters \\"Use the key on the lock \\
 and submit the output. You may want to use a $(Text "Unix Pipe"). Google it.\\"\n"
 """
             f.write(self.script.format(fake_submit.format(self.tmpdir)))
 
     def cleanup(self):
-        files = ["/bin/submit", "/usr/bin/submit", "/usr/local/bin/key", "/usr/local/bin/submit", self.shell_settings]
+        files = ["/bin/submit", "/usr/bin/submit", "/usr/local/bin/key",
+                "/usr/local/bin/submit", self.shell_settings]
         for f in files:
             if os.path.isfile(f):
                 sp.call("sudo rm {0}".format(f).split())

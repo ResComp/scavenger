@@ -7,7 +7,8 @@ import traceback
 import libpy
 
 EXIT_MSG="""\
-You may now exit out of this shell with the keys "ctrl+d" or the "exit" command'
+You may now exit out of this shell with the keys "ctrl+d" or the "exit" \
+command
 """
 
 class Task:

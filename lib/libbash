@@ -5,12 +5,15 @@ RunDir="$SCAVENGERDATADIR/run"
 
 # Styles
 #
+# NONE # Normal
 # BOLD
 # UDL  # Underline
 # REV  # Reversed foreground/background color
 # BLUE
 # RED
 # MAG  # Magenta
+
+# The default style is BOLD
 Text() {
     message=$1
     shift
@@ -27,6 +30,9 @@ Text() {
     magenta='\033[35m'
 
     delimiter=''
+    if [ -z "$settings" ]; then
+        delimiter+=$bold
+    fi
     for style in $settings; do
         [ "$style" = "BOLD" ] && delimiter+=$bold
         [ "$style" = "UDL" ] && delimiter+=$underline
@@ -35,14 +41,31 @@ Text() {
         [ "$style" = "BLUE" ] && delimiter+=$blue
         [ "$style" = "MAG" ] && delimiter+=$magenta
     done
-    if [ -z "$settings" ]; then
-        delimiter=$bold
-    fi
     echo -n "${delimiter}${message}${normal}"
 }
 
+# This is a pretty printing function that automatically wraps long lines of
+# text
+#
+# The default style is NONE
+Speak() {
+    extraArg=''
+    if [ "$#" -lt 2 ]; then
+        extraArg='NONE'
+    fi
+    echo -e "$(Text "$@" "$extraArg")" | fmt --split-only --width=80
+}
+
+# This is a pretty printing function that automatically wraps long lines of
+# text
+#
+# The default style is BOLD
 Announce() {
-    echo -e "\n$(Text "$@")\n"
+    extraArg=''
+    if [ "$#" -lt 2 ]; then
+        extraArg='BOLD'
+    fi
+    echo -e "\n$(Text "$@" "$extraArg")\n" | fmt --split-only --width=80
 }
 
 # This takes as input the name of the pid file. Not the path.

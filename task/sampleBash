@@ -8,22 +8,17 @@ setup() {
     mkdir -p "$SampleDir"
 }
 
-read -r -d '' runIntro <<"EOF"
-Make a file inside %s/ and tell me what it's called!
+run() {
+    Announce "Running task!"
+    runIntro="\
+Make a file inside $SampleDir/ and tell me what it's called!
 
 To submit your response:
 $ submit <file_name>
-EOF
-
-run() {
-    Announce "Running task!"
-    printf "${runIntro}\n\n" "$SampleDir"
+"
+    Speak "$runIntro"
     RunTask
 }
-
-read -r -d '' checkReminder <<"EOF"
-Remember, you want to create a file in %s/ and submit the file name
-EOF
 
 # This function returns 0 on success and 1 otherwise.
 check_submission() {
@@ -32,11 +27,13 @@ check_submission() {
     respFile=$SampleDir/$submission
     if [ -f "$respFile" ]; then
         Announce "Good job!" BOLD BLUE
-        echo "$ExitMsg"
+        Speak "$ExitMsg"
         return 0
     fi
     Announce "Error: file $respFile does not exist or is not a file" BOLD RED
-    printf "${checkReminder}\n" "$SampleDir"
+    checkReminder="\
+Remember, you want to create a file in $SampleDir/ and submit the file name"
+    Speak "$checkReminder"
     return 1
 }
 
