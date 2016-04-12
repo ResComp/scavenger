@@ -62,3 +62,14 @@ to write a task.
 a link to it in the vagrant home directory named `scavenger` (`ln -s /vagrant
 $HOME/scavenger`) and work locally (on the host machine) and only drop into
 vagrant to test changes.
+
+# FAQ
+
+**Q:** My Task seems to work properly but I'm getting a `Task Aborted` message.
+What's going on?
+
+**A:** A Task must exit cleanly (an exit code of `0`). Especially in the 
+`cleanup`, you should be performing checks before every operation.
+For example: before removing a file, check that the file exists. If this is
+Bash, then you should have `set -e` in your Task, which makes it so
+that *any* failure will cause an immediate exit with a non-zero exit code.
